@@ -9,7 +9,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  createNote() {}
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,9 +16,8 @@ class _HomeState extends State<Home> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.black45,
-            elevation: 10,
-            shape: const CircleBorder(side: BorderSide(strokeAlign: 1)),
+            backgroundColor: Colors.black,
+            shape: const CircleBorder(),
             onPressed: () {
               // Your code to handle button press
             },
@@ -29,32 +27,64 @@ class _HomeState extends State<Home> {
             ),
           ),
           body: Container(
-            padding: const EdgeInsets.only(left: 24, top: 47),
+            padding:
+                const EdgeInsets.only(left: 24, top: 47, right: 24, bottom: 47),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Notes',
-                      style: GoogleFonts.nunito(
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 43,
-                          fontWeight: FontWeight.bold,
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Row(
+                    children: [
+                      Text(
+                        'Notes',
+                        style: GoogleFonts.nunito(
+                          textStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 43,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.search),
-                      style: IconButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Colors.black45),
-                    )
-                  ],
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                        style: IconButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            backgroundColor: Colors.black),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Image.asset('assets/info_outline.png'),
+                        style: IconButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            backgroundColor: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/rafiki.png'),
+                      Text('Create your first note!',
+                          style: GoogleFonts.nunito(
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
