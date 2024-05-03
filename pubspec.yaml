@@ -63,6 +63,9 @@ flutter:
   assets:
     - assets/info_outline.png
     - assets/rafiki.png
+    - assets/save.png
+    - assets/Vector.png
+    - assets/visibility.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

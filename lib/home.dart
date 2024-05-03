@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes/create_notes.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,7 +20,8 @@ class _HomeState extends State<Home> {
             backgroundColor: Colors.black,
             shape: const CircleBorder(),
             onPressed: () {
-              // Your code to handle button press
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const CreateNotes()));
             },
             child: const Icon(
               Icons.add,
@@ -56,7 +58,8 @@ class _HomeState extends State<Home> {
                         style: IconButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            backgroundColor: Colors.black),
+                            backgroundColor:
+                                const Color.fromRGBO(59, 59, 59, 100)),
                       ),
                       IconButton(
                         onPressed: () {},
@@ -64,7 +67,8 @@ class _HomeState extends State<Home> {
                         style: IconButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            backgroundColor: Colors.black),
+                            backgroundColor:
+                                const Color.fromRGBO(59, 59, 59, 100)),
                       ),
                     ],
                   ),
