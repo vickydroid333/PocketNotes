@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:notes/home.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider<NotesProvider>(
+      create: (_) => NotesProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
