@@ -99,64 +99,82 @@ class _HomeState extends State<Home> {
                 Expanded(
                   child: Stack(
                     children: [
-                      ListView.builder(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        itemCount: notesProvider.notes.length,
-                        itemBuilder: (context, index) {
-                          return Dismissible(
-                            key: Key(notesProvider.notes[index].id),
-                            direction: DismissDirection.endToStart,
-                            background: const Card(
-                                color: Colors.red,
-                                margin: EdgeInsets.only(top: 16),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: Colors.white,
-                                  size: 35,
-                                )),
-                            onDismissed: (direction) {
-                              // Delete the note
-                              setState(() {
-                                isDismissed = true;
-                                dismissedItem = notesProvider.notes[index];
-                                Provider.of<NotesProvider>(context,
-                                        listen: false)
-                                    .deleteNote(notesProvider.notes[index]);
-                                undoSeconds = 5; // Reset undo timer
-                                notesProvider.saveNotes();
-                              });
-                              Future.delayed(const Duration(seconds: 1), () {
-                                Timer.periodic(const Duration(seconds: 1),
-                                    (timer) {
-                                  if (mounted) {
-                                    setState(() {
-                                      if (undoSeconds > 0) {
-                                        undoSeconds--;
-                                      } else {
-                                        isDismissed = false;
-                                        timer.cancel();
-                                      }
-                                    });
-                                  }
-                                });
-                              });
-                            },
-                            child: Card(
-                              margin: const EdgeInsets.only(top: 16),
-                              color: colors[index % colors.length],
-                              child: ListTile(
-                                title: Text(
-                                  textAlign: TextAlign.center,
-                                  notesProvider.notes[index].title,
+                      notesProvider.notes.isEmpty
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset('assets/rafiki.png'),
+                                Text(
+                                  'Create your first Note',
                                   style: GoogleFonts.nunito(
                                       textStyle: const TextStyle(
-                                          fontSize: 25, color: Colors.black)),
-                                ),
-                              ),
+                                          color: Colors.white, fontSize: 20)),
+                                )
+                              ],
+                            )
+                          : ListView.builder(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              itemCount: notesProvider.notes.length,
+                              itemBuilder: (context, index) {
+                                return Dismissible(
+                                  key: Key(notesProvider.notes[index].id),
+                                  direction: DismissDirection.endToStart,
+                                  background: const Card(
+                                      color: Colors.red,
+                                      margin: EdgeInsets.only(top: 16),
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                        size: 35,
+                                      )),
+                                  onDismissed: (direction) {
+                                    // Delete the note
+                                    setState(() {
+                                      isDismissed = true;
+                                      dismissedItem =
+                                          notesProvider.notes[index];
+                                      Provider.of<NotesProvider>(context,
+                                              listen: false)
+                                          .deleteNote(
+                                              notesProvider.notes[index]);
+                                      undoSeconds = 5; // Reset undo timer
+                                      notesProvider.saveNotes();
+                                    });
+                                    Future.delayed(const Duration(seconds: 1),
+                                        () {
+                                      Timer.periodic(const Duration(seconds: 1),
+                                          (timer) {
+                                        if (mounted) {
+                                          setState(() {
+                                            if (undoSeconds > 0) {
+                                              undoSeconds--;
+                                            } else {
+                                              isDismissed = false;
+                                              timer.cancel();
+                                            }
+                                          });
+                                        }
+                                      });
+                                    });
+                                  },
+                                  child: Card(
+                                    margin: const EdgeInsets.only(top: 16),
+                                    color: colors[index % colors.length],
+                                    child: ListTile(
+                                      title: Text(
+                                        textAlign: TextAlign.center,
+                                        notesProvider.notes[index].title,
+                                        style: GoogleFonts.nunito(
+                                            textStyle: const TextStyle(
+                                                fontSize: 25,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                       Visibility(
                         visible: isDismissed,
                         child: Positioned(
