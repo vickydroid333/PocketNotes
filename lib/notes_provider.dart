@@ -7,6 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class NotesProvider extends ChangeNotifier with WidgetsBindingObserver {
   List<Note> notes = [];
 
+  NotesProvider() {
+    // Load notes from SharedPreferences on initialization
+    loadNotes();
+  }
+
   void addNote(Note note) {
     notes.add(note);
     notifyListeners(); // Notify UI of changes

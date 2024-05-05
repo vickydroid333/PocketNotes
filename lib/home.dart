@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/create_notes.dart';
 import 'package:notes/notes_provider.dart';
+import 'package:notes/search_notes.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomeState extends State<Home> {
   bool isDismissed = false; // Flag for undo visibility
   var dismissedItem;
   int undoSeconds = 5;
+  String searchQuery = '';
 
   final List<Color> colors = [
     const Color.fromRGBO(255, 158, 158, 100),
@@ -69,20 +71,21 @@ class _HomeState extends State<Home> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchNotes(
+                                  notesProvider: notesProvider,
+                                  searchQuery: searchQuery,
+                                ),
+                              ),
+                            );
+                          },
                           icon: const Icon(
                             Icons.search,
                             color: Colors.white,
                           ),
-                          style: IconButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              backgroundColor:
-                                  const Color.fromRGBO(59, 59, 59, 100)),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Image.asset('assets/info_outline.png'),
                           style: IconButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10)),

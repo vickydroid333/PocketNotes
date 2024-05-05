@@ -52,7 +52,7 @@ class _CreateNotesState extends State<CreateNotes> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       onPressed: () {
@@ -64,20 +64,6 @@ class _CreateNotesState extends State<CreateNotes> {
                               borderRadius: BorderRadius.circular(10)),
                           backgroundColor:
                               const Color.fromRGBO(59, 59, 59, 100)),
-                    ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Image.asset('assets/visibility.png'),
-                      style: IconButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor:
-                              const Color.fromRGBO(59, 59, 59, 100)),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 5.0), // Add horizontal padding
                     ),
                     IconButton(
                       onPressed: _addNote,
@@ -100,8 +86,10 @@ class _CreateNotesState extends State<CreateNotes> {
                       TextField(
                         controller: _titleController,
                         decoration: InputDecoration(
-                          border: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black)),
+                          filled: true,
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none, // Remove all borders
+                          ),
                           hintText: 'Title',
                           hintStyle: GoogleFonts.nunito(
                             textStyle: const TextStyle(
@@ -111,12 +99,13 @@ class _CreateNotesState extends State<CreateNotes> {
                         ),
                         maxLines: null, // Allow multiline input
                       ),
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: 12.0),
                       TextField(
                         controller: _contentController,
                         decoration: InputDecoration(
-                          border: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue)),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide.none, // Remove all borders
+                          ),
                           hintText: 'Type something...',
                           hintStyle: GoogleFonts.nunito(
                             textStyle: const TextStyle(
