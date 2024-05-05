@@ -122,11 +122,6 @@ class _HomeState extends State<Home> {
                                 undoSeconds = 5; // Reset undo timer
                                 notesProvider.saveNotes();
                               });
-                              // Future.delayed(const Duration(seconds: 5), () {
-                              //   setState(() {
-                              //     isDismissed = false;
-                              //   });
-                              // });
                               Future.delayed(const Duration(seconds: 1), () {
                                 Timer.periodic(const Duration(seconds: 1),
                                     (timer) {
