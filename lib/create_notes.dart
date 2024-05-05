@@ -1,18 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:notes/home.dart';
 import 'package:notes/note_model.dart';
+import 'package:notes/notes_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateNotes extends StatefulWidget {
-  final CreateNote createNote;
-  const CreateNotes({super.key, required this.createNote});
+  const CreateNotes({super.key});
 
   @override
   State<CreateNotes> createState() => _CreateNotesState();
 }
 
 class _CreateNotesState extends State<CreateNotes> {
+  final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _contentController.dispose();
+    super.dispose();
+  }
+
+  void _addNote() {
+    const uniqueId = Uuid();
+    final generateUniqueId = uniqueId.v4();
+    final note = Note(
+        // Generate unique id (e.g., using uuid package),
+        generateUniqueId,
+        _titleController.text,
+        _contentController.text);
+    Provider.of<NotesProvider>(context, listen: false).addNote(note);
+    // Save notes to SharedPreferences
+    Provider.of<NotesProvider>(context, listen: false).saveNotes();
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,14 +80,7 @@ class _CreateNotesState extends State<CreateNotes> {
                           horizontal: 5.0), // Add horizontal padding
                     ),
                     IconButton(
-                      onPressed: () {
-                        final note = widget.createNote.createNote();
-                        Provider.of<NotesProvider>(context, listen: false)
-                            .addNote(note);
-                        widget.createNote
-                            .clearFields(); // Clear fields after adding
-                        Navigator.pop(context);
-                      },
+                      onPressed: _addNote,
                       icon: Image.asset('assets/save.png'),
                       style: IconButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -81,7 +98,7 @@ class _CreateNotesState extends State<CreateNotes> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       TextField(
-                        controller: widget.createNote.titleController,
+                        controller: _titleController,
                         decoration: InputDecoration(
                           border: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.black)),
@@ -96,7 +113,7 @@ class _CreateNotesState extends State<CreateNotes> {
                       ),
                       const SizedBox(height: 16.0),
                       TextField(
-                        controller: widget.createNote.contentController,
+                        controller: _contentController,
                         decoration: InputDecoration(
                           border: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue)),
@@ -118,23 +135,5 @@ class _CreateNotesState extends State<CreateNotes> {
         ),
       ),
     );
-  }
-}
-
-class CreateNote {
-  final titleController = TextEditingController();
-  final contentController = TextEditingController();
-
-  Note createNote() {
-    return Note(
-      "",
-      titleController.text,
-      contentController.text,
-    );
-  }
-
-  void clearFields() {
-    titleController.clear();
-    contentController.clear();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes/home.dart';
+import 'package:notes/notes_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
