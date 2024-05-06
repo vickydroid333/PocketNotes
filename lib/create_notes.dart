@@ -49,33 +49,28 @@ class _CreateNotesState extends State<CreateNotes> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Image.asset('assets/Vector.png'),
-                      style: IconButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor:
-                              const Color.fromRGBO(59, 59, 59, 100)),
-                    ),
-                    IconButton(
-                      onPressed: _addNote,
-                      icon: Image.asset('assets/save.png'),
-                      style: IconButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor:
-                              const Color.fromRGBO(59, 59, 59, 100)),
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Image.asset('assets/Vector.png'),
+                    style: IconButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        backgroundColor: const Color.fromRGBO(59, 59, 59, 100)),
+                  ),
+                  IconButton(
+                    onPressed: _addNote,
+                    icon: Image.asset('assets/save.png'),
+                    style: IconButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        backgroundColor: const Color.fromRGBO(59, 59, 59, 100)),
+                  ),
+                ],
               ),
               const SizedBox(height: 16.0),
               Expanded(

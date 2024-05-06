@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/create_notes.dart';
+import 'package:notes/notes_details.dart';
 import 'package:notes/notes_provider.dart';
 import 'package:notes/search_notes.dart';
 import 'package:provider/provider.dart';
@@ -161,6 +162,15 @@ class _HomeState extends State<Home> {
                                     margin: const EdgeInsets.only(top: 16),
                                     color: colors[index % colors.length],
                                     child: ListTile(
+                                      onTap: () {
+                                        notesProvider.selectNote(
+                                            notesProvider.notes[index]);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const NotesDetails()));
+                                      },
                                       title: Text(
                                         textAlign: TextAlign.center,
                                         notesProvider.notes[index].title,

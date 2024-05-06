@@ -70,6 +70,7 @@ flutter:
     - assets/Vector.png
     - assets/visibility.png
     - assets/cuate.png
+    - assets/mode.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
