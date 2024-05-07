@@ -136,8 +136,7 @@ class _HomeState extends State<Home> {
                                           notesProvider.notes[index];
                                       Provider.of<NotesProvider>(context,
                                               listen: false)
-                                          .deleteNote(
-                                              notesProvider.notes[index]);
+                                          .deleteNote(index);
                                       undoSeconds = 5; // Reset undo timer
                                       notesProvider.saveNotes();
                                     });
@@ -197,10 +196,9 @@ class _HomeState extends State<Home> {
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  notesProvider.notes.insert(
-                                      notesProvider.notes.length,
-                                      dismissedItem);
+                                  notesProvider.undoDelete();
                                   isDismissed = false;
+                                  notesProvider.saveNotes();
                                 });
                               },
                               child: Container(

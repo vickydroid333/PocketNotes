@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class NotesProvider extends ChangeNotifier with WidgetsBindingObserver {
   List<Note> notes = [];
   Note? selectedNote;
+  final List<Map<String, dynamic>> _undoStack = []; // Track deleted info
 
   NotesProvider() {
     // Load notes from SharedPreferences on initialization
@@ -18,9 +20,20 @@ class NotesProvider extends ChangeNotifier with WidgetsBindingObserver {
     notifyListeners(); // Notify UI of changes
   }
 
-  void deleteNote(Note note) {
-    notes.remove(note);
-    notifyListeners();
+  Future<void> deleteNote(int index) async {
+    if (notes.isNotEmpty && index >= 0 && index < notes.length) {
+      final deletedNote = notes.removeAt(index);
+      _undoStack.add({'note': deletedNote, 'index': index});
+      notifyListeners();
+    }
+  }
+
+  Future<void> undoDelete() async {
+    if (_undoStack.isNotEmpty) {
+      final lastDeleted = _undoStack.removeLast();
+      notes.insert(lastDeleted['index'] as int, lastDeleted['note'] as Note);
+      notifyListeners();
+    }
   }
 
   void selectNote(Note note) {
