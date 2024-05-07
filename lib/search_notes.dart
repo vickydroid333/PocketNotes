@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notes/note_model.dart';
+import 'package:notes/notes_details.dart';
 import 'package:notes/notes_provider.dart';
 
 class SearchNotes extends StatefulWidget {
@@ -13,8 +15,9 @@ class SearchNotes extends StatefulWidget {
 }
 
 class _SearchNotesState extends State<SearchNotes> {
-  String searchQuery = '';
   final _textController = TextEditingController();
+  List<Note> filteredNotes = [];
+  List<Note> allNotes = [];
   final List<Color> colors = [
     const Color.fromRGBO(255, 158, 158, 100),
     const Color.fromRGBO(255, 245, 153, 100),
@@ -27,7 +30,31 @@ class _SearchNotesState extends State<SearchNotes> {
   @override
   void initState() {
     super.initState();
-    searchQuery = widget.searchQuery;
+    allNotes = widget.notesProvider.notes; // Get all notes initially
+    _textController.addListener(() {
+      final searchTerm = _textController.text.toLowerCase();
+      filteredNotes = allNotes
+          .where((note) =>
+              note.title.toLowerCase().contains(searchTerm) ||
+              note.content.toLowerCase().contains(searchTerm))
+          .toList();
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  void openNoteDetails() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const NotesDetails(),
+      ),
+    );
   }
 
   @override
@@ -77,27 +104,9 @@ class _SearchNotesState extends State<SearchNotes> {
                 ),
               ),
               style: const TextStyle(color: Colors.white),
-              onChanged: (value) {
+              onChanged: (searchQuery) {
                 setState(() {
-                  searchQuery = value;
-                });
-              },
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 5),
-                itemCount: widget.notesProvider.notes
-                    .where((note) =>
-                        note.title
-                            .toLowerCase()
-                            .contains(searchQuery.toLowerCase()) ||
-                        note.content
-                            .toLowerCase()
-                            .contains(searchQuery.toLowerCase()))
-                    .toList()
-                    .length,
-                itemBuilder: (context, index) {
-                  final note = widget.notesProvider.notes
+                  filteredNotes = widget.notesProvider.notes
                       .where((note) =>
                           note.title
                               .toLowerCase()
@@ -105,11 +114,28 @@ class _SearchNotesState extends State<SearchNotes> {
                           note.content
                               .toLowerCase()
                               .contains(searchQuery.toLowerCase()))
-                      .toList()[index];
+                      .toList();
+                });
+              },
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 5),
+                itemCount: filteredNotes.isEmpty
+                    ? allNotes.length
+                    : filteredNotes.length,
+                itemBuilder: (context, index) {
+                  final note = filteredNotes.isEmpty
+                      ? allNotes[index]
+                      : filteredNotes[index];
                   return Card(
                     margin: const EdgeInsets.only(top: 16),
                     color: colors[index % colors.length],
                     child: ListTile(
+                      onTap: () {
+                        widget.notesProvider.selectNote(note);
+                        openNoteDetails();
+                      },
                       title: Text(
                         textAlign: TextAlign.center,
                         note.title,
