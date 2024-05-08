@@ -41,6 +41,12 @@ class NotesProvider extends ChangeNotifier with WidgetsBindingObserver {
     notifyListeners();
   }
 
+  void updateNote(int index, Note newNote) {
+    notes[index] = newNote;
+    saveNotes();
+    notifyListeners();
+  }
+
   Future<void> loadNotes() async {
     final prefs = await SharedPreferences.getInstance();
     final notesJson = prefs.getStringList('notes');

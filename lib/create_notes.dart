@@ -92,6 +92,7 @@ class _CreateNotesState extends State<CreateNotes> {
                             ),
                           ),
                         ),
+                        style: const TextStyle(fontSize: 35.0),
                         maxLines: null, // Allow multiline input
                       ),
                       const SizedBox(height: 12.0),
@@ -108,6 +109,7 @@ class _CreateNotesState extends State<CreateNotes> {
                             ),
                           ),
                         ),
+                        style: const TextStyle(fontSize: 23.0),
                         maxLines: null, // Allow multiline input
                       ),
                     ],

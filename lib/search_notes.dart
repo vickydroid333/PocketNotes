@@ -48,11 +48,14 @@ class _SearchNotesState extends State<SearchNotes> {
     super.dispose();
   }
 
-  void openNoteDetails() {
+  void openNoteDetails(Note note, int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const NotesDetails(),
+        builder: (context) => NotesDetails(
+          note: note,
+          index: index,
+        ),
       ),
     );
   }
@@ -119,36 +122,53 @@ class _SearchNotesState extends State<SearchNotes> {
               },
             ),
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 5),
-                itemCount: filteredNotes.isEmpty
-                    ? allNotes.length
-                    : filteredNotes.length,
-                itemBuilder: (context, index) {
-                  final note = filteredNotes.isEmpty
-                      ? allNotes[index]
-                      : filteredNotes[index];
-                  return Card(
-                    margin: const EdgeInsets.only(top: 16),
-                    color: colors[index % colors.length],
-                    child: ListTile(
-                      onTap: () {
-                        widget.notesProvider.selectNote(note);
-                        openNoteDetails();
-                      },
-                      title: Text(
-                        textAlign: TextAlign.center,
-                        note.title,
-                        style: GoogleFonts.nunito(
-                            textStyle: const TextStyle(
-                                fontSize: 25,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold)),
+              child: filteredNotes.isEmpty && _textController.text.isNotEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/cuate.png', // Replace with your image path
+                          ),
+                          Text(
+                            'File not found. Try searching again.',
+                            style: GoogleFonts.nunito(
+                                textStyle: const TextStyle(
+                                    color: Colors.white, fontSize: 20)),
+                          )
+                        ],
                       ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      itemCount: filteredNotes.isEmpty
+                          ? allNotes.length
+                          : filteredNotes.length,
+                      itemBuilder: (context, index) {
+                        final note = filteredNotes.isEmpty
+                            ? allNotes[index]
+                            : filteredNotes[index];
+                        return Card(
+                          margin: const EdgeInsets.only(top: 16),
+                          color: colors[index % colors.length],
+                          child: ListTile(
+                            onTap: () {
+                              widget.notesProvider.selectNote(note);
+                              openNoteDetails(note, index);
+                            },
+                            title: Text(
+                              textAlign: TextAlign.center,
+                              note.title,
+                              style: GoogleFonts.nunito(
+                                  textStyle: const TextStyle(
+                                      fontSize: 25,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
