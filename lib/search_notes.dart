@@ -7,6 +7,7 @@ import 'package:notes/notes_provider.dart';
 class SearchNotes extends StatefulWidget {
   final NotesProvider notesProvider;
   final String searchQuery;
+
   const SearchNotes(
       {super.key, required this.notesProvider, required this.searchQuery});
 
@@ -92,9 +93,10 @@ class _SearchNotesState extends State<SearchNotes> {
                     _textController.clear();
                   },
                 ),
-                filled: true, // Enable background fill (optional)
-                fillColor: const Color.fromRGBO(
-                    59, 59, 59, 100), // Optional for transparent background
+                filled: true,
+                // Enable background fill (optional)
+                fillColor: const Color.fromRGBO(59, 59, 59, 100),
+                // Optional for transparent background
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(
                       color: Colors.transparent), // Transparent border

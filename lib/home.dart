@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isDismissed = false; // Flag for undo visibility
-  var dismissedItem;
+  dynamic dismissedItem;
   int undoSeconds = 5;
   String searchQuery = '';
 
@@ -199,9 +199,12 @@ class _HomeState extends State<Home> {
                       Visibility(
                         visible: isDismissed,
                         child: Positioned(
-                          bottom: 50.0, // Position at the bottom
-                          left: 0.0, // Position at the left edge (full width)
-                          right: 0.0, // Position at the right edge (full width)
+                          bottom: 50.0,
+                          // Position at the bottom
+                          left: 0.0,
+                          // Position at the left edge (full width)
+                          right: 0.0,
+                          // Position at the right edge (full width)
                           height: 50,
                           child: Container(
                             color: Colors.green,
