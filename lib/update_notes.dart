@@ -16,6 +16,7 @@ class UpdateNotes extends StatefulWidget {
 class _UpdateNotesState extends State<UpdateNotes> {
   final _textController = TextEditingController();
   final _contentController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   List<Note> allNotes = [];
 
   void _updateNote(NotesProvider provider) {
@@ -76,7 +77,11 @@ class _UpdateNotesState extends State<UpdateNotes> {
                         backgroundColor: const Color.fromRGBO(59, 59, 59, 100)),
                   ),
                   IconButton(
-                    onPressed: () => _updateNote(notesProvider),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _updateNote(notesProvider);
+                      }
+                    },
                     icon: Image.asset('assets/save.png'),
                     style: IconButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -88,49 +93,58 @@ class _UpdateNotesState extends State<UpdateNotes> {
               const SizedBox(height: 16.0),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextField(
-                        controller: _textController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none, // Remove all borders
-                          ),
-                          hintText: 'Title',
-                          hintStyle: GoogleFonts.nunito(
-                            textStyle: const TextStyle(
-                              fontSize: 48,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          validator: (value) {
+                            return value!.isEmpty ? 'Enter the tile' : null;
+                          },
+                          controller: _textController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none, // Remove all borders
+                            ),
+                            hintText: 'Title',
+                            hintStyle: GoogleFonts.nunito(
+                              textStyle: const TextStyle(
+                                fontSize: 48,
+                              ),
                             ),
                           ),
+                          style: const TextStyle(fontSize: 35.0),
+                          maxLines: null, // Allow multiline input
                         ),
-                        style: const TextStyle(fontSize: 35.0),
-                        maxLines: null, // Allow multiline input
-                      ),
-                      const SizedBox(height: 12.0),
-                      const Divider(
-                        height: 0.1,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 12.0),
-                      TextField(
-                        controller: _contentController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none, // Remove all borders
-                          ),
-                          hintText: 'Type something...',
-                          hintStyle: GoogleFonts.nunito(
-                            textStyle: const TextStyle(
-                              fontSize: 23,
+                        const SizedBox(height: 12.0),
+                        const Divider(
+                          height: 0.1,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 12.0),
+                        TextFormField(
+                          validator: (value) {
+                            return value!.isEmpty ? 'Enter the content' : null;
+                          },
+                          controller: _contentController,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none, // Remove all borders
+                            ),
+                            hintText: 'Type something...',
+                            hintStyle: GoogleFonts.nunito(
+                              textStyle: const TextStyle(
+                                fontSize: 23,
+                              ),
                             ),
                           ),
+                          style: const TextStyle(fontSize: 23.0),
+                          maxLines: null, // Allow multiline input
                         ),
-                        style: const TextStyle(fontSize: 23.0),
-                        maxLines: null, // Allow multiline input
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               )

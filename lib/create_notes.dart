@@ -15,6 +15,7 @@ class CreateNotes extends StatefulWidget {
 class _CreateNotesState extends State<CreateNotes> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -63,7 +64,11 @@ class _CreateNotesState extends State<CreateNotes> {
                         backgroundColor: const Color.fromRGBO(59, 59, 59, 100)),
                   ),
                   IconButton(
-                    onPressed: _addNote,
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _addNote();
+                      }
+                    },
                     icon: Image.asset('assets/save.png'),
                     style: IconButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -75,44 +80,53 @@ class _CreateNotesState extends State<CreateNotes> {
               const SizedBox(height: 16.0),
               Expanded(
                 child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      TextField(
-                        controller: _titleController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none, // Remove all borders
-                          ),
-                          hintText: 'Title',
-                          hintStyle: GoogleFonts.nunito(
-                            textStyle: const TextStyle(
-                              fontSize: 48,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          validator: (value) {
+                            return value!.isEmpty ? 'Enter the title' : null;
+                          },
+                          controller: _titleController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none, // Remove all borders
+                            ),
+                            hintText: 'Title',
+                            hintStyle: GoogleFonts.nunito(
+                              textStyle: const TextStyle(
+                                fontSize: 48,
+                              ),
                             ),
                           ),
+                          style: const TextStyle(fontSize: 35.0),
+                          maxLines: null, // Allow multiline input
                         ),
-                        style: const TextStyle(fontSize: 35.0),
-                        maxLines: null, // Allow multiline input
-                      ),
-                      const SizedBox(height: 12.0),
-                      TextField(
-                        controller: _contentController,
-                        decoration: InputDecoration(
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none, // Remove all borders
-                          ),
-                          hintText: 'Type something...',
-                          hintStyle: GoogleFonts.nunito(
-                            textStyle: const TextStyle(
-                              fontSize: 23,
+                        const SizedBox(height: 12.0),
+                        TextFormField(
+                          validator: (value) {
+                            return value!.isEmpty ? 'Enter the content' : null;
+                          },
+                          controller: _contentController,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide.none, // Remove all borders
+                            ),
+                            hintText: 'Type something...',
+                            hintStyle: GoogleFonts.nunito(
+                              textStyle: const TextStyle(
+                                fontSize: 23,
+                              ),
                             ),
                           ),
+                          style: const TextStyle(fontSize: 23.0),
+                          maxLines: null, // Allow multiline input
                         ),
-                        style: const TextStyle(fontSize: 23.0),
-                        maxLines: null, // Allow multiline input
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               )
